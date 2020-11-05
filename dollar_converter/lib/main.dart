@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
+import 'DollarConverter.dart';
 
 void main() {
-  runApp(DollarConverter());
+  runApp(MaterialApp(home: DollarConverter()));
 }
