@@ -16,6 +16,7 @@ class _ImcState extends State<Imc> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Cálculo IMC"),
+        backgroundColor: Colors.indigo,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -44,9 +45,20 @@ class _ImcState extends State<Imc> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.indigo,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.clear)),
-          BottomNavigationBarItem(icon: Icon(Icons.check)),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.clear, color: Colors.white),
+              title: Text(
+                "Limpar",
+                style: TextStyle(color: Colors.white),
+              )),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.check, color: Colors.white),
+              title: Text(
+                "Calcular",
+                style: TextStyle(color: Colors.white),
+              )),
         ],
       ),
     );
