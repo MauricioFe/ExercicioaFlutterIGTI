@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,29 +8,29 @@ import 'package:todo_app/models/Todo.dart';
 
 class TodoItem extends StatefulWidget {
   final Todo todo;
+  final int index;
 
-  TodoItem({Key key, @required this.todo}) : super(key: key);
+  TodoItem({Key key, @required this.todo, @required this.index})
+      : super(key: key);
 
   @override
-  _TodoItemState createState() => _TodoItemState(todo);
-
-
+  _TodoItemState createState() => _TodoItemState(todo, index);
 }
 
 class _TodoItemState extends State<TodoItem> {
   Todo _todo;
+  int _index;
   final _tituloController = TextEditingController();
   final _descricaoController = TextEditingController();
 
-  _TodoItemState(Todo todo) {
+  _TodoItemState(Todo todo, int index) {
+    _index = index;
     this._todo = todo;
     if (_todo != null) {
       _tituloController.text = _todo.titulo;
       _descricaoController.text = _todo.descricao;
     }
   }
-
-
 
   _saveItem() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -42,9 +43,14 @@ class _TodoItemState extends State<TodoItem> {
     }
     _todo =
         Todo.preencheCampos(_tituloController.text, _descricaoController.text);
-    list.add(_todo);
 
+    if (_index != -1) {
+      list[_index] = _todo;
+    } else {
+      list.add(_todo);
+    }
     preferences.setString('list', jsonEncode(list));
+    Navigator.pop(context);
   }
 
   @override

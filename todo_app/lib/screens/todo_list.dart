@@ -46,7 +46,22 @@ class _TodoListState extends State<TodoList> {
               subtitle: Text('${list[index].descricao}'),
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TodoItem(todo: list[index])),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        TodoItem(todo: list[index], index: index)),
+              ).then((value) => _reloadList()),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () => {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.check),
+                    onPressed: () => {},
+                  ),
+                ],
               ),
             );
           }),
@@ -55,8 +70,9 @@ class _TodoListState extends State<TodoList> {
         child: Icon(Icons.add),
         onPressed: () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => TodoItem()),
-        ),
+          MaterialPageRoute(
+              builder: (context) => TodoItem(todo: null, index: -1)),
+        ).then((value) => _reloadList()),
       ),
     );
   }
