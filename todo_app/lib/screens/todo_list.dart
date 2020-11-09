@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/models/Todo.dart';
 import 'package:todo_app/screens/todo_item.dart';
 
@@ -9,15 +12,22 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
   List<Todo> list = [];
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    Todo todo= Todo();
-    todo.titulo= 'Titulo Teste';
-    todo.descricao = 'Titulo Teste';
-    setState(() {
-      list.add(todo);
-    });
+    _reloadList();
+  }
+
+  _reloadList() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var data = preferences.getString("list");
+    if (data != null) {
+      var objs = jsonDecode(data) as List;
+      setState(() {
+        list = objs.map((e) => Todo.fromJson(e)).toList();
+      });
+    }
   }
 
   @override
@@ -36,7 +46,7 @@ class _TodoListState extends State<TodoList> {
               subtitle: Text('${list[index].descricao}'),
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TodoItem()),
+                MaterialPageRoute(builder: (context) => TodoItem(todo: list[index])),
               ),
             );
           }),
