@@ -22,6 +22,7 @@ class _TodoItemState extends State<TodoItem> {
   int _index;
   final _tituloController = TextEditingController();
   final _descricaoController = TextEditingController();
+  final key = GlobalKey<ScaffoldState>();
 
   _TodoItemState(Todo todo, int index) {
     _index = index;
@@ -33,29 +34,35 @@ class _TodoItemState extends State<TodoItem> {
   }
 
   _saveItem() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-
-    var data = preferences.getString("list");
-    List<Todo> list = [];
-    if (data != null) {
-      var objs = jsonDecode(data) as List;
-      list = objs.map((e) => Todo.fromJson(e)).toList();
-    }
-    _todo =
-        Todo.preencheCampos(_tituloController.text, _descricaoController.text);
-
-    if (_index != -1) {
-      list[_index] = _todo;
+    if (_tituloController.text.isEmpty || _descricaoController.text.isEmpty) {
+      key.currentState.showSnackBar(
+          SnackBar(content: Text('Título e descrição são obrigatórios')));
     } else {
-      list.add(_todo);
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+
+      var data = preferences.getString("list");
+      List<Todo> list = [];
+      if (data != null) {
+        var objs = jsonDecode(data) as List;
+        list = objs.map((e) => Todo.fromJson(e)).toList();
+      }
+      _todo = Todo.preencheCampos(
+          _tituloController.text, _descricaoController.text);
+
+      if (_index != -1) {
+        list[_index] = _todo;
+      } else {
+        list.add(_todo);
+      }
+      preferences.setString('list', jsonEncode(list));
+      Navigator.pop(context);
     }
-    preferences.setString('list', jsonEncode(list));
-    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: key,
       appBar: AppBar(
         title: Text("Todo item"),
         backgroundColor: Colors.green,

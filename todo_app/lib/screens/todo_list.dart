@@ -12,6 +12,8 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
   List<Todo> list = [];
+  final _doneStyle =
+      TextStyle(color: Colors.green, decoration: TextDecoration.lineThrough);
 
   @override
   void initState() {
@@ -30,6 +32,44 @@ class _TodoListState extends State<TodoList> {
     }
   }
 
+  _removeItem(int index) {
+    setState(() {
+      list.removeAt(index);
+    });
+    SharedPreferences.getInstance()
+        .then((prefs) => prefs.setString('list', jsonEncode(list)));
+  }
+
+  _doneItem(int index) {
+    setState(() {
+      list[index].status = 'F';
+    });
+    SharedPreferences.getInstance()
+        .then((prefs) => prefs.setString('list', jsonEncode(list)));
+  }
+
+  _showAlertDialog(BuildContext context, String conteudo,
+      Function confirmFunction, int index) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Confirmação'),
+            content: Text(conteudo),
+            actions: [
+              FlatButton(
+                  onPressed: () => Navigator.pop(context), child: Text("Não")),
+              FlatButton(
+                  onPressed: () {
+                    confirmFunction(index);
+                    Navigator.pop(context);
+                  },
+                  child: Text("Sim")),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +82,14 @@ class _TodoListState extends State<TodoList> {
           itemCount: list.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text('${list[index].titulo}'),
-              subtitle: Text('${list[index].descricao}'),
+              title: Text(
+                '${list[index].titulo}',
+                style: list[index].status == 'F' ? _doneStyle : null,
+              ),
+              subtitle: Text(
+                '${list[index].descricao}',
+                style: list[index].status == 'F' ? _doneStyle : null,
+              ),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -55,11 +101,19 @@ class _TodoListState extends State<TodoList> {
                 children: [
                   IconButton(
                     icon: Icon(Icons.clear),
-                    onPressed: () => {},
+                    onPressed: () => _showAlertDialog(
+                        context,
+                        'Confirma a finalização deste item',
+                        _removeItem,
+                        index),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.check),
-                    onPressed: () => {},
+                  Visibility(
+                    visible: list[index].status == 'A',
+                    child: IconButton(
+                      icon: Icon(Icons.check),
+                      onPressed: () => _showAlertDialog(context,
+                          'Confirma a exclusão deste item', _doneItem, index),
+                    ),
                   ),
                 ],
               ),
