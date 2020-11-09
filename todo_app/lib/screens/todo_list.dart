@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/screens/todo_item.dart';
 
 class TodoList extends StatefulWidget {
   @override
@@ -22,13 +23,19 @@ class _TodoListState extends State<TodoList> {
             return ListTile(
               title: Text(list[index]),
               subtitle: Text(list[index]),
-              onTap: () => {},
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TodoItem()),
+              ),
             );
           }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         child: Icon(Icons.add),
-        onPressed: ()=>{},
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TodoItem()),
+        ),
       ),
     );
   }
