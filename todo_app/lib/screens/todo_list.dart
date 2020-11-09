@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/Todo.dart';
 import 'package:todo_app/screens/todo_item.dart';
 
 class TodoList extends StatefulWidget {
@@ -7,7 +8,17 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
-  var list = ['Teste1', 'teste 2', 'teste 3'];
+  List<Todo> list = [];
+  @override
+  void initState(){
+    super.initState();
+    Todo todo= Todo();
+    todo.titulo= 'Titulo Teste';
+    todo.descricao = 'Titulo Teste';
+    setState(() {
+      list.add(todo);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +32,8 @@ class _TodoListState extends State<TodoList> {
           itemCount: list.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(list[index]),
-              subtitle: Text(list[index]),
+              title: Text('${list[index].titulo}'),
+              subtitle: Text('${list[index].descricao}'),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => TodoItem()),
