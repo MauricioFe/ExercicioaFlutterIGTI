@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TodoItem extends StatefulWidget {
   @override
@@ -7,10 +8,14 @@ class TodoItem extends StatefulWidget {
 }
 
 class _TodoItemState extends State<TodoItem> {
-  @override
   final _tituloController = TextEditingController();
   final _descricaoController = TextEditingController();
+  _saveItem() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString('key', 'value');
+  }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +50,7 @@ class _TodoItemState extends State<TodoItem> {
               height: 50,
               minWidth: double.infinity,
               child: RaisedButton(
-                onPressed: () => {},
+                onPressed: _saveItem,
                 color: Colors.green,
                 textColor: Colors.white,
                 child: Text(
