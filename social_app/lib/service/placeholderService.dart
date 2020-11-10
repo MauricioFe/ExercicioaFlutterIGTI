@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:social_app/models/comment.dart';
+import 'dart:async';
 import 'package:social_app/models/post.dart';
+import 'package:social_app/models/user.dart';
 
 class PlaceholderService {
   // ignore: non_constant_identifier_names
@@ -16,4 +19,26 @@ class PlaceholderService {
       throw Exception("Erro ao buscar posts");
     }
   }
+
+  Future<User> getPerfil() async  {
+    var response = await http.get('$URL_BASE/users/1');
+    if (response.statusCode == 200) {
+      var user = User.fromJson(jsonDecode(response.body));
+      return user;
+    } else {
+      throw Exception("Erro ao buscar users");
+    }
+  }
+  Future<List<Comment>> getComments(int id) async {
+    var response = await http.get('$URL_BASE/posts/${id}/comments');
+    if (response.statusCode == 200) {
+      var objs = jsonDecode(response.body) as List;
+      var comments = objs.map((obj) => Comment.fromJson(obj)).toList();
+      return comments;
+    } else {
+      throw Exception("Erro ao buscar comments");
+    }
+  }
 }
+
+

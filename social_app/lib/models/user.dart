@@ -14,6 +14,7 @@ class User {
         name = json['name'],
         email = json['email'],
         phone = json['phone'],
+        username = json['username'],
         address = Address.fromJson(json['address']),
         website = json['website'];
 }
