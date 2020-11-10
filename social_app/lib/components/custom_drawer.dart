@@ -15,14 +15,14 @@ class CustomDrawer extends StatelessWidget {
               title: Text("Perfil", style: TextStyle(fontSize: 20)),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
+                Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (context) => Perfil()));
               }),
           ListTile(
               title: Text("Feed", style: TextStyle(fontSize: 20)),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
+                Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (context) => Feed()));
               }),
         ],
