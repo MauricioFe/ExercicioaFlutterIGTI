@@ -31,8 +31,8 @@ class Comments extends StatelessWidget {
                         children: [
                           ListTile(
                             title: Text('${snapshot.data[index].name}'),
-                            subtitle: Text('${snapshot.data[index].name}'),
-                          )
+                            subtitle: Text('${snapshot.data[index].body}'),
+                          ),
                         ],
                       ),
                     );
