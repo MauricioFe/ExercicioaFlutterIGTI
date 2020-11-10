@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_app/service/placeholderService.dart';
 
 class Feed extends StatefulWidget {
   @override
@@ -8,10 +9,11 @@ class Feed extends StatefulWidget {
 
 
 class _FeedState extends State<Feed> {
-
+  final PlaceholderService _placeholderService = PlaceholderService();
   @override
   void initState() {
     super.initState();
+    _placeholderService.getPosts();
   }
   @override
   Widget build(BuildContext context) {
