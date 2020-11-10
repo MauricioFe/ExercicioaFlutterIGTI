@@ -11,9 +11,6 @@ class Feed extends StatefulWidget {
 
 class _FeedState extends State<Feed> {
   final PlaceholderService _placeholderService = PlaceholderService();
-  //List<Post> _posts = new List();
-  bool isLoading = false;
-
   @override
   void initState() {
     super.initState();
