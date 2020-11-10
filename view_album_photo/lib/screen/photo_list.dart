@@ -37,6 +37,7 @@ class PhotoList extends StatelessWidget {
                               style: TextStyle(fontSize: 24),
                             ),
                           ),
+                          Image.network('${snapshot.data[index].thumbnailUrl}'),
                         ],
                       ),
                     );

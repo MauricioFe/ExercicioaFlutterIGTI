@@ -17,7 +17,7 @@ class PlaceholderService{
     }
 
   Future<List<Photo>> getPhotos(int id) async {
-      var response = await http.get('$URL_BASE/users/$id/albums');
+      var response = await http.get('$URL_BASE/albums/$id/photos');
       if (response.statusCode == 200) {
           var objs = jsonDecode(response.body) as List;
           var photos = objs.map((obj) => Photo.fromJson(obj)).toList();
