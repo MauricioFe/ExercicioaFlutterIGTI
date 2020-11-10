@@ -29,8 +29,8 @@ class PlaceholderService {
       throw Exception("Erro ao buscar users");
     }
   }
-  Future<List<Comment>> getComments(int id) async {
-    var response = await http.get('$URL_BASE/posts/${id}/comments');
+  Future<List<Comment>> getComments(int postId) async {
+    var response = await http.get('$URL_BASE/posts/$postId/comments');
     if (response.statusCode == 200) {
       var objs = jsonDecode(response.body) as List;
       var comments = objs.map((obj) => Comment.fromJson(obj)).toList();

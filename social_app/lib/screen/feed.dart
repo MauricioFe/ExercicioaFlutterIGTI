@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_app/components/custom_drawer.dart';
 import 'package:social_app/models/post.dart';
+import 'package:social_app/screen/comments.dart';
 import 'package:social_app/service/placeholderService.dart';
 
 class Feed extends StatefulWidget {
@@ -10,16 +11,16 @@ class Feed extends StatefulWidget {
 
 class _FeedState extends State<Feed> {
   final PlaceholderService _placeholderService = PlaceholderService();
-  List<Post> _posts = new List();
+  //List<Post> _posts = new List();
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _placeholderService.getPosts().then((resp) {
-      setState(() {
-        _posts = resp;
-      });
+      // setState(() {
+      //   _posts = resp;
+      // });
     });
   }
 
@@ -42,23 +43,32 @@ class _FeedState extends State<Feed> {
                 child: ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              '${snapshot.data[index].title}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 24),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('${snapshot.data[index].body}',
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (comment) =>
+                                    Comments(snapshot.data[index].id)));
+                      },
+                      child: Card(
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                '${snapshot.data[index].title}',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 20)),
-                          )
-                        ],
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('${snapshot.data[index].body}',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 20)),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   },
