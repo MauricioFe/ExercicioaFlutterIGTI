@@ -29,7 +29,7 @@ class _AlbumListState extends State<AlbumList> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: Text("Usuários"),
+        title: Text("Albums"),
         centerTitle: true,
       ),
       body: Container(

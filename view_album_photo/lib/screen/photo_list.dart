@@ -14,7 +14,7 @@ class PhotoList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: Text("Usuários"),
+        title: Text("Fotos"),
         centerTitle: true,
       ),
       body: Container(
